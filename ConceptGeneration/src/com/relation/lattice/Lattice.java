@@ -3,9 +3,9 @@ package com.relation.lattice;
 public abstract class Lattice {
 	/**
 	 * This field represents the number of total elements to construct a
-	 * lattice .For example, boolean lattice consists of total number of two elements.
+	 * lattice .For example, boolean lattice consists of total number of two elements...
 	 */
-	private int noOfElements;
+	private int noOfElements=3;
 
 	/**
 	 * This method helps to access the private field noOfElements.
