@@ -1,5 +1,7 @@
 package com.relation.operations;
 
+import java.util.ArrayList;
+
 import com.relation.lattice.Lattice;
 import com.relation.utility.Utility;
 
@@ -178,9 +180,9 @@ public class Relation {
 
 	/**
 	 * This method calculates the relative multiplication of two relation. The
-	 * (x,z) element would be true in the resulting relation if and only if there
-	 * exists one element y such that (x,y) is true in the first relation and (y,z) is
-	 * true in the other relation.
+	 * (x,z) element would be true in the resulting relation if and only if
+	 * there exists one element y such that (x,y) is true in the first relation
+	 * and (y,z) is true in the other relation.
 	 * 
 	 * @param is
 	 *            one of the input relation for union method. The other input
@@ -227,8 +229,7 @@ public class Relation {
 	 * @return the left residue of two relation.
 	 */
 	public Relation RightResidue(Relation relation) {
-		Relation r = this;
-		Relation q = relation;
+
 		Relation resultRelation = new Relation(this.getColumn(),
 				relation.getColumn(), lattice);
 		int row = this.getRow();
@@ -245,7 +246,7 @@ public class Relation {
 		}
 		System.out.println("---Right Start----");
 		Utility.PrintArray(resultRelation.getMatrix());
-		//System.out.println("---End Left Start----");
+		// System.out.println("---End Left Start----");
 		return resultRelation;
 	}
 
@@ -279,34 +280,46 @@ public class Relation {
 	}
 
 	/**
-	 * This method creates an entry for each subset. For example, there are a total of 8
-	 * subsets for 3 elements.Then this method creates a relation with dimension
-	 * 8 by 3 where row represents each of the subset and column represents each
-	 * object. Empty subset contain 0 for every column while subset with one
-	 * element contain 1 in the column which represents the element in the
-	 * subset.
+	 * This method creates an entry for each subset. For example, there are a
+	 * total of 8 subsets for 3 elements.Then this method creates a relation
+	 * with dimension 8 by 3 where row represents each of the subset and column
+	 * represents each object. Empty subset contain 0 for every column while
+	 * subset with one element contain 1 in the column which represents the
+	 * element in the subset.
 	 * 
 	 * @param element
 	 *            no of elements in the set.
 	 * @return the epsilon relation for the input.
 	 */
 	public static Relation Epsilon(int element) {
+		// lattice.setNoOfElements(3);
+		ArrayList<String> list = new ArrayList<>();
+		
 		int row = element;
 		int column = (int) Math.pow(lattice.getNoOfElements(), row);
+		
 		Relation resultRelation = new Relation(row, column, lattice);
 		for (int c = 0; c < column; c++) {
+			String singlePair = "";
+			
 			int n = c;
 			int r = row - 1;
 			while (n > 0) {
-				resultRelation.getMatrix()[r][c] = n
-						% lattice.getNoOfElements();
+				int value = n % lattice.getNoOfElements();
+				singlePair = singlePair + "," + "(" + r + "," + value + ")";
+				resultRelation.getMatrix()[r][c] = value;
 				n = n / lattice.getNoOfElements();
 				r--;
 			}
+			list.add(singlePair);
 
 		}
 		System.out.println("---Epsilon Start----");
 		Utility.PrintArray(resultRelation.getMatrix());
+
+		for (String data : list) {
+			System.out.println(data);
+		}
 		return resultRelation;
 	}
 
@@ -322,9 +335,15 @@ public class Relation {
 	 * @return symmetric quotient of two relation.
 	 */
 	public Relation SymetricQuotient(Relation relation) {
-	
+
 		Relation right = this.RightResidue(relation);
+		System.out.println("--SQ Right--");
+		Utility.PrintArray(right.getMatrix());
+		System.out.println("--SQ Right End--");
 		Relation left = this.Transpose().LeftResidue(relation.Transpose());
+		System.out.println("--SQ Left--");
+		Utility.PrintArray(left.getMatrix());
+		System.out.println("--SQ Left End--");
 		return right.Intersection(left);
 	}
 
@@ -335,38 +354,74 @@ public class Relation {
 	 *         represent concept.
 	 */
 	public Relation GenerateConcepts() {
+
 		Relation epsilon = Epsilon(this.getRow());
 		System.out.println("----epsilonss----");
 		Utility.PrintArray(epsilon.getMatrix());
-		
-		Relation epsilonRightRelation= epsilon.RightResidue(this);
+
+		Relation epsilonRightRelation = epsilon.RightResidue(this);
 		System.out.println("----epsilonRightRelation----");
 		Utility.PrintArray(epsilonRightRelation.getMatrix());
-		
-		
-		Relation RelationLeftepsilonRightRelation = this.LeftResidue(epsilonRightRelation);
+
+		Relation RelationLeftepsilonRightRelation = this
+				.LeftResidue(epsilonRightRelation);
 		System.out.println("----RelationLeftepsilonRightRelation----");
 		Utility.PrintArray(RelationLeftepsilonRightRelation.getMatrix());
-		
-		
 
-		Relation symRelation = RelationLeftepsilonRightRelation.SymetricQuotient(epsilon);
+		Relation symRelation = RelationLeftepsilonRightRelation
+				.SymetricQuotient(epsilon).Down();
 		System.out.println("----symRelation----");
 		Utility.PrintArray(symRelation.getMatrix());
-		
+
 		Relation identity = IdentityRelation(symRelation.getRow());
 		System.out.println("----identityyyy----");
 		Utility.PrintArray(identity.getMatrix());
-		
+
 		Relation finalmat = symRelation.Intersection(identity);
 		System.out.println("----finalmat----");
 		Utility.PrintArray(finalmat.getMatrix());
 		System.out.println("----");
 		return finalmat;
+
+		/*
+		 * return this.RightResidue(Epsilon(this.getRow()).LeftResidue(this))
+		 * .SymetricQuotient(Epsilon(this.getRow()))
+		 * .Intersection(IdentityRelation(this.getRow()));
+		 */
+	}
+
+	public Relation GetAttributeSet() {
+		//return this.RightResidue(Epsilon(this.getRow())).SymetricQuotient(
+			//	Epsilon(this.getColumn())).Down();
+		return	Epsilon(this.getRow()).RightResidue(this).Transpose().SymetricQuotient(Epsilon(this.getColumn())).Down();
+		//return this.RightResidue(Epsilon(this.getRow())).Transpose();
+	}
+
+	public Relation GenerateConceptsV2() {
+		int m = (int) Math.pow(lattice.getNoOfElements(), this.getRow());
+		int n = (int) Math.pow(lattice.getNoOfElements(), this.getColumn());
 		
-		/*return this.RightResidue(Epsilon(this.getRow()).LeftResidue(this))
-				.SymetricQuotient(Epsilon(this.getRow()))
-				.Intersection(IdentityRelation(this.getRow()));*/
+		Relation r1 = this
+				.Transpose()
+				.LeftResidue(Relation.Epsilon(this.getRow()).Transpose())
+				.Composition(Relation.Pi(m, n).Transpose())
+				.SymetricQuotient(
+						Relation.Epsilon(this.getColumn()).Composition(
+								Relation.Rho(m, n).Transpose()));
+		
+		Relation r2 = Relation
+				.Epsilon(this.getRow())
+				.Composition(Relation.Pi(m, n).Transpose())
+				.SymetricQuotient(
+						this.LeftResidue(
+								Relation.Epsilon(this.getColumn()).Transpose())
+								.Composition(Relation.Rho(m, n).Transpose()));
+		
+		Relation r3 = r1.Intersection(r2).Intersection(
+				Relation.IdentityRelation(r1.getRow()));
+		
+		return r3;
+
 	}
 
 	/**
@@ -401,18 +456,21 @@ public class Relation {
 		for (int i = 0; i < this.getRow(); i++)
 			for (int j = 0; j < this.getColumn(); j++)
 				r2.getMatrix()[j][i] = this.getMatrix()[i][j];
+		Utility.PrintArray(r2.getMatrix());
 		return r2;
 	}
 
 	/**
 	 * This method create a relation with 1 and 0. The relation dimension
-	 * depends on the input parameters. For example, if m and n two parameters in
-	 * the function then relation consist of (m) rows and (m+n) columns. The result
-	 * relation contains 1 for those indexes where row and column represents same
-	 * element from m and 0 elsewhere.
+	 * depends on the input parameters. For example, if m and n two parameters
+	 * in the function then relation consist of (m) rows and (m+n) columns. The
+	 * result relation contains 1 for those indexes where row and column
+	 * represents same element from m and 0 elsewhere.
 	 * 
-	 * @param m the first parameter.
-	 * @param n the second parameter.
+	 * @param m
+	 *            the first parameter.
+	 * @param n
+	 *            the second parameter.
 	 * @return the iota relation consist of 1 and 0.
 	 */
 	public static Relation Iota(int m, int n) {
@@ -432,13 +490,15 @@ public class Relation {
 
 	/**
 	 * This method create a relation with 1 and 0. The relation dimension
-	 * depends on the input parameters. For example, if m and n two parameters in
-	 * the function then relation consist of (n) rows and (m+n) columns. The result
-	 * relation contains 1 for those indexes where row and column represents same
-	 * element from n and 0 elsewhere.
+	 * depends on the input parameters. For example, if m and n two parameters
+	 * in the function then relation consist of (n) rows and (m+n) columns. The
+	 * result relation contains 1 for those indexes where row and column
+	 * represents same element from n and 0 elsewhere.
 	 * 
-	 * @param m the first parameter.
-	 * @param n the second parameter.
+	 * @param m
+	 *            the first parameter.
+	 * @param n
+	 *            the second parameter.
 	 * @return the kappa relation consist of 1 and 0.
 	 */
 	public static Relation Kappa(int m, int n) {
@@ -458,12 +518,15 @@ public class Relation {
 
 	/**
 	 * This method create a relation with 1 and 0. The relation dimension
-	 * depends on the input parameters. For example, if m and n two parameters in
-	 * the function then relation consist of (m*n) rows and (m) columns. The result
-	 * relation contains 1 for those indexes which represents the row element and 0 elsewhere.
+	 * depends on the input parameters. For example, if m and n two parameters
+	 * in the function then relation consist of (m*n) rows and (m) columns. The
+	 * result relation contains 1 for those indexes which represents the row
+	 * element and 0 elsewhere.
 	 * 
-	 * @param m the first parameter.
-	 * @param n the second parameter.
+	 * @param m
+	 *            the first parameter.
+	 * @param n
+	 *            the second parameter.
 	 * @return the pi relation consist of 1 and 0.
 	 */
 	public static Relation Pi(int m, int n) {
@@ -484,20 +547,23 @@ public class Relation {
 				row_count = -1;
 			}
 		}
-		Relation resultRelation = new Relation();
+		Relation resultRelation = new Relation(row, column, lattice);
 		resultRelation.setMatrix(matrix);
+		Utility.PrintArray(matrix);
 		return resultRelation;
 	}
 
-
 	/**
 	 * This method create a relation with 1 and 0. The relation dimension
-	 * depends on the input parameters. For example, if m and n two parameters in
-	 * the function then relation consist of (m*n) rows and (n) columns. The result
-	 * relation contains 1 for those indexes which represents the row element and 0 elsewhere.
+	 * depends on the input parameters. For example, if m and n two parameters
+	 * in the function then relation consist of (m*n) rows and (n) columns. The
+	 * result relation contains 1 for those indexes which represents the row
+	 * element and 0 elsewhere.
 	 * 
-	 * @param m the first parameter.
-	 * @param n the second parameter.
+	 * @param m
+	 *            the first parameter.
+	 * @param n
+	 *            the second parameter.
 	 * @return the rho relation consist of 1 and 0.
 	 */
 	public static Relation Rho(int m, int n) {
@@ -521,10 +587,36 @@ public class Relation {
 			}
 
 		}
-		Relation resultRelation = new Relation();
+		Relation resultRelation = new Relation(row, column, lattice);
 		resultRelation.setMatrix(matrix);
+		Utility.PrintArray(resultRelation.getMatrix());
+		return resultRelation;
+	}
+
+	public Relation Up() {
+		Relation resultRelation = new Relation(this.getRow(), this.getColumn(),
+				lattice);
+		for (int i = 0; i < this.getRow(); i++) {
+			for (int j = 0; j < this.getColumn(); j++) {
+				resultRelation.getMatrix()[i][j] = this.getMatrix()[i][j] != 0 ? 1
+						: 0;
+			}
+		}
+		Utility.PrintArray(resultRelation.getMatrix());
+		return resultRelation;
+	}
+
+	public Relation Down() {
+		Relation resultRelation = new Relation(this.getRow(), this.getColumn(),
+				lattice);
+		for (int i = 0; i < this.getRow(); i++) {
+			for (int j = 0; j < this.getColumn(); j++) {
+				resultRelation.getMatrix()[i][j] = this.getMatrix()[i][j] != 1 ? 0
+						: 1;
+			}
+		}
+		Utility.PrintArray(resultRelation.getMatrix());
 		return resultRelation;
 	}
 
 }
-
