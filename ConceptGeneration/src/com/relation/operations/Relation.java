@@ -594,6 +594,11 @@ public class Relation {
 		return resultRelation;
 	}
 
+	/**
+	 * This function takes relation as a input. If the relation entry getter than 0 then this makes 
+	 * the entry 1 otherwise keep the same.
+	 * @return modified matrix with 1 and 0 only
+	 */
 	public Relation Up() {
 		Relation resultRelation = new Relation(this.getRow(), this.getColumn(),
 				lattice);
