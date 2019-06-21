@@ -1,4 +1,4 @@
-package com.relation.operations;
+package com.relation.lattice;
 
 public class BoolLattice extends Lattice{
 
