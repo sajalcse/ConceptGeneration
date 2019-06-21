@@ -184,7 +184,7 @@ public class Relation {
 	 * there exists one element y such that (x,y) is true in the first relation
 	 * and (y,z) is true in the other relation.
 	 * 
-	 * @param is
+	 * @param relation
 	 *            one of the input relation for union method. The other input
 	 *            relation accessed using this operator in java.
 	 * @return the composition of two relation.
@@ -294,14 +294,14 @@ public class Relation {
 	public static Relation Epsilon(int element) {
 		// lattice.setNoOfElements(3);
 		ArrayList<String> list = new ArrayList<>();
-		
+
 		int row = element;
 		int column = (int) Math.pow(lattice.getNoOfElements(), row);
-		
+
 		Relation resultRelation = new Relation(row, column, lattice);
 		for (int c = 0; c < column; c++) {
 			String singlePair = "";
-			
+
 			int n = c;
 			int r = row - 1;
 			while (n > 0) {
@@ -325,7 +325,7 @@ public class Relation {
 
 	/**
 	 * This method calculates the intersection of left residue and right residue
-	 * to two relation R and S. Let define R:X->Y and S:X->Z. Then the symmetric
+	 * to two relation R and S. Let define R:X-Y and S:X-Z. Then the symmetric
 	 * quotient relates an element y from Y to an element z from Z when y and z
 	 * have the same set of inverse image with respect to R and S respectively.
 	 * 
@@ -391,16 +391,17 @@ public class Relation {
 	}
 
 	public Relation GetAttributeSet() {
-		//return this.RightResidue(Epsilon(this.getRow())).SymetricQuotient(
-			//	Epsilon(this.getColumn())).Down();
-		return	Epsilon(this.getRow()).RightResidue(this).Transpose().SymetricQuotient(Epsilon(this.getColumn())).Down();
-		//return this.RightResidue(Epsilon(this.getRow())).Transpose();
+		// return this.RightResidue(Epsilon(this.getRow())).SymetricQuotient(
+		// Epsilon(this.getColumn())).Down();
+		return Epsilon(this.getRow()).RightResidue(this).Transpose()
+				.SymetricQuotient(Epsilon(this.getColumn())).Down();
+		// return this.RightResidue(Epsilon(this.getRow())).Transpose();
 	}
 
 	public Relation GenerateConceptsV2() {
 		int m = (int) Math.pow(lattice.getNoOfElements(), this.getRow());
 		int n = (int) Math.pow(lattice.getNoOfElements(), this.getColumn());
-		
+
 		Relation r1 = this
 				.Transpose()
 				.LeftResidue(Relation.Epsilon(this.getRow()).Transpose())
@@ -408,7 +409,7 @@ public class Relation {
 				.SymetricQuotient(
 						Relation.Epsilon(this.getColumn()).Composition(
 								Relation.Rho(m, n).Transpose()));
-		
+
 		Relation r2 = Relation
 				.Epsilon(this.getRow())
 				.Composition(Relation.Pi(m, n).Transpose())
@@ -416,10 +417,10 @@ public class Relation {
 						this.LeftResidue(
 								Relation.Epsilon(this.getColumn()).Transpose())
 								.Composition(Relation.Rho(m, n).Transpose()));
-		
+
 		Relation r3 = r1.Intersection(r2).Intersection(
 				Relation.IdentityRelation(r1.getRow()));
-		
+
 		return r3;
 
 	}
