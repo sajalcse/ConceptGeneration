@@ -595,8 +595,9 @@ public class Relation {
 	}
 
 	/**
-	 * This function takes relation as a input. If the relation entry getter than 0 then this makes 
-	 * the entry 1 otherwise keep the same.
+	 * This function takes relation as a input. If the relation entry getter
+	 * than 0 then this makes the entry 1 otherwise keep the same.
+	 * 
 	 * @return modified matrix with 1 and 0 only
 	 */
 	public Relation Up() {
@@ -613,8 +614,9 @@ public class Relation {
 	}
 
 	/**
-	 * This function takes relation as a input. If the relation entry equal to 1 then this makes 
-	 * the entry 1 otherwise keep the same.
+	 * This function takes relation as a input. If the relation entry equal to 1
+	 * then this makes the entry 1 otherwise keep the same.
+	 * 
 	 * @return modified matrix with 1 and 0 only
 	 */
 	public Relation Down() {
@@ -628,6 +630,24 @@ public class Relation {
 		}
 		Utility.PrintArray(resultRelation.getMatrix());
 		return resultRelation;
+	}
+
+	public boolean isEqual(Relation relation) {
+		boolean result = true;
+		if ((this.getRow() == relation.getRow())
+				&& (this.getColumn() == relation.getColumn())) {
+			for (int i = 0; i < this.getRow(); i++)
+				for (int j = 0; j < this.getColumn(); j++)
+					if (this.getMatrix()[i][j] != relation.getMatrix()[i][j]) {
+						result = false;
+						break;
+					}
+
+		} else {
+			System.err
+					.println("Relations are incompatiable for equality check");
+		}
+		return result;
 	}
 
 }
