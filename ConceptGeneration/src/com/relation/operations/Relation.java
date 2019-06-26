@@ -347,6 +347,17 @@ public class Relation {
 		return right.Intersection(left);
 	}
 
+	public int GetNumberOfConcepts(int n) {
+
+		int count = 0;
+		for (int i = 0; i < this.getRow(); i++)
+			for (int j = 0; j < this.getColumn(); j++)
+				if (this.getMatrix()[i][j] == n)
+					count++;
+		System.out.println(count);
+		return count;
+	}
+
 	/**
 	 * This method derives all concepts from a relational data set.
 	 * 
@@ -400,8 +411,10 @@ public class Relation {
 
 	public Relation GenerateConceptsV2() {
 		int m = (int) Math.pow(lattice.getNoOfElements(), this.getRow());
+
 		int n = (int) Math.pow(lattice.getNoOfElements(), this.getColumn());
 
+		System.out.println(m + " " + n);
 		Relation r1 = this
 				.Transpose()
 				.LeftResidue(Relation.Epsilon(this.getRow()).Transpose())
@@ -423,6 +436,64 @@ public class Relation {
 
 		return r3;
 
+	}
+
+	public Relation GenerateConceptsV2Modified() {
+		int m = (int) Math.pow(lattice.getNoOfElements(), this.getRow());
+
+		int n = (int) Math.pow(lattice.getNoOfElements(), this.getColumn());
+
+		System.out.println(m + " " + n);
+		Relation r1 = this
+				.Transpose()
+				.LeftResidue(Relation.Epsilon(this.getRow()).Transpose())
+				.SymetricQuotient(
+						Relation.Epsilon(this.getColumn()));
+
+		Relation r2 = Relation
+				.Epsilon(this.getRow())
+				.SymetricQuotient(
+						this.LeftResidue(
+								Relation.Epsilon(this.getColumn()).Transpose()));
+
+		Relation r3 = r1.Intersection(r2);
+		return r3;
+
+	}
+	public Relation GenerateConceptsV3() {
+		int m = (int) Math.pow(lattice.getNoOfElements(), this.getRow());
+
+		int n = (int) Math.pow(lattice.getNoOfElements(), this.getColumn());
+
+		return Relation
+				.Pi(m, n)
+				.Composition(
+						Relation.Epsilon(this.getRow()).SymetricQuotient(
+								Relation.Epsilon(this.getRow())))
+				.Composition(this.GenerateConcepts())
+				.Composition(this.GetAttributeSet())
+				.Composition(
+						Relation.Epsilon(this.getColumn()).SymetricQuotient(
+								Relation.Epsilon(this.getColumn())))
+				.Composition(Relation.Rho(m, n).Transpose())
+				.Intersection(Relation.IdentityRelation(m * n));
+	}
+	
+
+	public Relation GenerateConceptsV3Modified() {
+		int m = (int) Math.pow(lattice.getNoOfElements(), this.getRow());
+
+		int n = (int) Math.pow(lattice.getNoOfElements(), this.getColumn());
+
+		return
+						Relation.Epsilon(this.getRow()).SymetricQuotient(
+								Relation.Epsilon(this.getRow()))
+				.Composition(this.GenerateConcepts())
+				.Composition(this.GetAttributeSet())
+				.Composition(
+						Relation.Epsilon(this.getColumn()).SymetricQuotient(
+								Relation.Epsilon(this.getColumn())));
+				
 	}
 
 	/**
@@ -647,6 +718,7 @@ public class Relation {
 			System.err
 					.println("Relations are incompatiable for equality check");
 		}
+		System.out.println(result);
 		return result;
 	}
 
