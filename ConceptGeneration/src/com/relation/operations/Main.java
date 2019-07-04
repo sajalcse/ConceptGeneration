@@ -3,6 +3,7 @@ package com.relation.operations;
 import com.relation.lattice.BoolLattice;
 import com.relation.lattice.ThreeElementLattice;
 import com.relation.utility.Utility;
+import com.sun.xml.internal.ws.api.addressing.AddressingVersion.EPR;
 
 public class Main {
 
@@ -49,7 +50,10 @@ public class Main {
 		xx.setMatrix(x);
 		yy.setMatrix(y);
 		numR.setMatrix(numberMat);
-*/
+		
+		numR.GenerateConceptsV2Modified().GetNumberOfConcepts(1);*/
+		
+
 		int[][] t = { { 1, 2, 1 }, { 2, 2, 2 } };
 		Relation relation = new Relation(2, 3, new ThreeElementLattice());
 		relation.setMatrix(t);
@@ -67,13 +71,28 @@ public class Main {
 				anotherRel.getRow());
 		int n = (int) Math.pow(new ThreeElementLattice().getNoOfElements(),
 				anotherRel.getColumn());
-		Relation r = relation.GenerateConceptsV3Modified();
 		
-		Relation r1 = relation.GenerateConceptsV2Modified();
-		r.GetNumberOfConcepts(2);
-		r1.GetNumberOfConcepts(2);
-		r.isEqual(r1);
+		//Relation r = relation.GenerateConceptsV3Modified();
+		
+		//Relation r1 = relation.GenerateConceptsV2Modified();
+		
+		//r.GetNumberOfConcepts(2);
+		//r1.GetNumberOfConcepts(2);
 
+		//tranRelation.GenerateConcepts();
+
+		int[][] A = {{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+		int[][] B = {{0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+		
+		Relation relA = new Relation(1, 27, new ThreeElementLattice());
+		Relation relB = new Relation(1, 27, new ThreeElementLattice());
+
+		relA.setMatrix(A);
+		relB.setMatrix(B);
+		
+		Relation r = relA.Composition(Relation.Epsilon(3).RightResidue(Relation.Epsilon(3))).Composition(tranRelation.GenerateConcepts()).Transpose();
+		//Relation r1 = relB.Composition(Relation.Epsilon(3).RightResidue(Relation.Epsilon(3))).Composition(tranRelation.GenerateConcepts()).Up().Transpose();
+		
 	
 	}
 

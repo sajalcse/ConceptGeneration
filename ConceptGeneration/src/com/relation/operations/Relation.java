@@ -379,8 +379,12 @@ public class Relation {
 		System.out.println("----RelationLeftepsilonRightRelation----");
 		Utility.PrintArray(RelationLeftepsilonRightRelation.getMatrix());
 
+		//------------------------------------this changes for the proof of alternative formula---------------------
+		/*Relation symRelation = RelationLeftepsilonRightRelation
+				.SymetricQuotient(epsilon).Down();*/
+		//------------------------------------end------------------------------------------------------------------
 		Relation symRelation = RelationLeftepsilonRightRelation
-				.SymetricQuotient(epsilon).Down();
+				.SymetricQuotient(epsilon);
 		System.out.println("----symRelation----");
 		Utility.PrintArray(symRelation.getMatrix());
 

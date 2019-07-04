@@ -21,7 +21,7 @@ public class Utility {
 			for (int j = 0; j < column; j++) {
 				System.out.print(data[i][j] + "\t");
 			}
-			System.out.println("\n");
+			System.out.print("\n");
 		}
 	}
 	
