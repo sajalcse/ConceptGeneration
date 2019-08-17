@@ -19,7 +19,7 @@ public class Utility {
 		int column = data[0].length;
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < column; j++) {
-				System.out.print(data[i][j] + "\t");
+				System.out.print(data[i][j] + " ");
 			}
 			System.out.print("\n");
 		}

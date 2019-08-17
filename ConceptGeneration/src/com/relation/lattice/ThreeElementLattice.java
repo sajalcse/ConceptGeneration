@@ -21,7 +21,8 @@ public class ThreeElementLattice extends Lattice {
 	 * operation between two elements.Since it is a three element lattice, we
 	 * need to declare a 3 by 3 dimension array.
 	 */
-	private static int[][] implicationArray = { { 1, 1, 1 }, { 0, 1, 2 },
+	private static int[][] implicationArray = { { 1, 1, 1 },
+		{ 0, 1, 2 },
 			{ 0, 1, 1 } };
 
 	/**

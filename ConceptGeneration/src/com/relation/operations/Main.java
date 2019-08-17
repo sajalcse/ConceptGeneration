@@ -67,22 +67,14 @@ public class Main {
 		Relation tranRelation = new Relation(3, 2, new ThreeElementLattice());
 		tranRelation.setMatrix(tt);
 
-		int m = (int) Math.pow(new ThreeElementLattice().getNoOfElements(),
-				anotherRel.getRow());
-		int n = (int) Math.pow(new ThreeElementLattice().getNoOfElements(),
-				anotherRel.getColumn());
 		
-		//Relation r = relation.GenerateConceptsV3Modified();
+		int[][] newMatr = { { 1, 1, 0}, { 1, 2, 1},{ 0, 1, 1} };
+		Relation newrelation = new Relation(3, 3, new ThreeElementLattice());
+		newrelation.setMatrix(newMatr);
 		
-		//Relation r1 = relation.GenerateConceptsV2Modified();
-		
-		//r.GetNumberOfConcepts(2);
-		//r1.GetNumberOfConcepts(2);
-
-		//tranRelation.GenerateConcepts();
-
-		int[][] A = {{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
-		int[][] B = {{0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+	
+		int[][] A = {{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+		int[][] B = {{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 		
 		Relation relA = new Relation(1, 27, new ThreeElementLattice());
 		Relation relB = new Relation(1, 27, new ThreeElementLattice());
@@ -90,10 +82,32 @@ public class Main {
 		relA.setMatrix(A);
 		relB.setMatrix(B);
 		
-		Relation r = relA.Composition(Relation.Epsilon(3).RightResidue(Relation.Epsilon(3))).Composition(tranRelation.GenerateConcepts()).Transpose();
-		//Relation r1 = relB.Composition(Relation.Epsilon(3).RightResidue(Relation.Epsilon(3))).Composition(tranRelation.GenerateConcepts()).Up().Transpose();
+		/*Relation Q = relA.Composition(Relation.Epsilon(3).RightResidue(Relation.Epsilon(3))).Composition(newrelation.GenerateConcepts()).Up();
+		Relation R = relB.Composition(Relation.Epsilon(3).RightResidue(Relation.Epsilon(3))).Composition(newrelation.GenerateConcepts()).Up();
+		Q.Implication(R).Composition(newrelation.GenerateConcepts()).Transpose();
+		relB.Composition(newrelation.GetPrimePrime()).Transpose();*/
+		//relation.GenerateConceptsV2Own().isEqual(relation.GenerateConceptsV2Modified());
 		
+		
+		/*Relation q = relA.Composition(Relation.Epsilon(3).RightResidue(Relation.Epsilon(3))).Composition(newrelation.generateExtentConcepts().getEquivalence().Transpose()).Up();
+		Relation r = relB.Composition(Relation.Epsilon(3).RightResidue(Relation.Epsilon(3))).Composition(newrelation.generateExtentConcepts().getEquivalence().Transpose()).Up();
+		q.Intersection(r);*/
+		//relation.generateExtentConcepts().Up().getEquivalence().Transpose();
+		
+		/*Relation e = newrelation.generateExtentConcepts().Up().getEquivalence();
+		Relation q=Relation.Pi(27, 27).Composition(Relation.Epsilon(3).RightResidue(Relation.Epsilon(3))).Composition(newrelation.generateExtentConcepts().Up().getEquivalence().Transpose());
+		Relation r=Relation.Rho(27, 27).Composition(Relation.Epsilon(3).RightResidue(Relation.Epsilon(3))).Composition(newrelation.generateExtentConcepts().Up().getEquivalence().Transpose());
 	
+		Relation s=q.Implication(r).Composition(e).Composition(newrelation.generateExtentConcepts()).Composition(e.Transpose());
+		Relation relL = new Relation(1, 18, new ThreeElementLattice());
+		int[][] L = {{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
+		relL.setMatrix(L);
+		Relation ss = s.LeftResidue(relL);
+		System.out.println("-------start-----");
+		Utility.PrintArray(ss.getMatrix());
+		System.out.println(ss.getRow());
+		*/
+		relation.GenerateConceptsV2Modified();
 	}
 
 }
