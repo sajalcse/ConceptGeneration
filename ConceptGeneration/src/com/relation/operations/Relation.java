@@ -459,6 +459,12 @@ public class Relation {
 		return symRelation;
 
 	}
+	
+	public Relation AttributeToPowerset() {
+
+		return this.Transpose().SymetricQuotient(Epsilon(3));
+
+	}
 
 	public Relation GetAttributeSet() {
 		// return this.RightResidue(Epsilon(this.getRow())).SymetricQuotient(
