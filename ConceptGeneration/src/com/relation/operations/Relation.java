@@ -3,6 +3,7 @@ package com.relation.operations;
 import java.util.ArrayList;
 
 import com.relation.lattice.Lattice;
+import com.relation.lattice.ThreeElementLattice;
 import com.relation.utility.Utility;
 
 public class Relation {
@@ -323,6 +324,7 @@ public class Relation {
 		int row = element;
 		int column = (int) Math.pow(lattice.getNoOfElements(), row);
 
+		System.out.println("Elements---"+lattice.getNoOfElements());
 		Relation resultRelation = new Relation(row, column, lattice);
 		for (int c = 0; c < column; c++) {
 			String singlePair = "";
@@ -460,9 +462,46 @@ public class Relation {
 
 	}
 	
+	public Relation generateImplicationsDegree()
+	{
+		Relation e = this.generateIntentConcepts().Up().getEquivalence();
+		Relation q = Relation.Pi(27, 27).Composition(Relation.Epsilon(3).RightResidue(Relation.Epsilon(3))).Composition(e.Transpose());
+		Relation r = Relation.Rho(27, 27).Composition(Relation.Epsilon(3).RightResidue(Relation.Epsilon(3))).Composition(e.Transpose());
+		Relation s=q.Implication(r).Composition(e).Composition(this.generateIntentConcepts()).Composition(e.Transpose());
+		Relation relL = new Relation(1, 18, new ThreeElementLattice());
+		int[][] L = {{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
+		relL.setMatrix(L);
+		Relation ss = s.LeftResidue(relL);
+		return ss;
+	}
+	
+	public Relation generateImplicationsDegree(Relation a1, Relation b1)
+	{
+		Relation a = a1.AttributeToPowerset().Down();
+		Relation b = b1.AttributeToPowerset().Down();
+		Relation e = this.generateIntentConcepts().Up().getEquivalence();
+		Relation q = a.Composition(Relation.Epsilon(3).RightResidue(Relation.Epsilon(3))).Composition(e.Transpose());
+		Relation r = b.Composition(Relation.Epsilon(3).RightResidue(Relation.Epsilon(3))).Composition(e.Transpose());
+		Relation s=q.Implication(r).Composition(e).Composition(this.generateIntentConcepts()).Composition(e.Transpose());
+		Relation relL = new Relation(1, 18, new ThreeElementLattice());
+		int[][] L = {{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
+		relL.setMatrix(L);
+		Relation ss = s.LeftResidue(relL);
+		return ss;
+	}
+	
+	public Relation generateImplicationsDegreeV2(Relation a, Relation b)
+	{
+		Relation A = a.AttributeToPowerset().Down();
+		Relation B = b.AttributeToPowerset().Down();
+		Relation rr =B.Composition(A.Composition(this.GetPrimePrime()).Transpose());
+		return rr;
+	
+	}
+	
 	public Relation AttributeToPowerset() {
 
-		return this.Transpose().SymetricQuotient(Epsilon(3));
+		return this.Transpose().SymetricQuotient(Epsilon(2));
 
 	}
 

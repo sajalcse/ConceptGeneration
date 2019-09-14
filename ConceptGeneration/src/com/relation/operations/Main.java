@@ -52,8 +52,10 @@ public class Main {
 		numR.setMatrix(numberMat);
 		geo.setMatrix(geometry);
 		
-		geo.generateIntentConcepts();
-		
+		int[][] test2 = { { 1, 1 }};
+		Relation test2r = new Relation(1, 2, new BoolLattice());
+		test2r.setMatrix(test2);
+		test2r.AttributeToPowerset().Composition(Relation.Epsilon(2).RightResidue(Relation.Epsilon(2)));
 	
 	}
 
