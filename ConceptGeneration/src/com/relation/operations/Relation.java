@@ -28,6 +28,8 @@ public class Relation {
 	/**
 	 * This is the default constructor.
 	 */
+	private ArrayList<String> attribute; 
+	private ArrayList<String> object; 
 	public Relation() {
 		this.row = 0;
 		this.column = 0;
@@ -108,6 +110,22 @@ public class Relation {
 		this.matrix = matrix;
 	}
 
+	public ArrayList<String> getAttribute() {
+		return attribute;
+	}
+
+	public void setAttribute(ArrayList<String> attribute) {
+		this.attribute = attribute;
+	}
+
+	public ArrayList<String> getObject() {
+		return object;
+	}
+
+	public void setObject(ArrayList<String> object) {
+		this.object = object;
+	}
+	
 	/**
 	 * This method determines the union of two relations with same dimension.
 	 * Every element of one relation is compared with the corresponding element
@@ -218,6 +236,7 @@ public class Relation {
 	public Relation Composition(Relation relation) {
 		int resultMatrix[][] = null;
 
+		System.out.println("Composition:---"+lattice);
 		if (this.getColumn() != relation.getRow()) {
 			System.err
 					.println("First Relation column should be equal to the second relation row!");
@@ -272,7 +291,6 @@ public class Relation {
 		}
 		System.out.println("---Right Start----");
 		Utility.PrintArray(resultRelation.getMatrix());
-		// System.out.println("---End Left Start----");
 		return resultRelation;
 	}
 
@@ -318,14 +336,12 @@ public class Relation {
 	 * @return the epsilon relation for the input.
 	 */
 	public static Relation Epsilon(int element) {
-		// lattice.setNoOfElements(3);
 		ArrayList<String> list = new ArrayList<>();
-
 		int row = element;
 		int column = (int) Math.pow(lattice.getNoOfElements(), row);
-
-		System.out.println("Elements---"+lattice.getNoOfElements());
 		Relation resultRelation = new Relation(row, column, lattice);
+		
+		
 		for (int c = 0; c < column; c++) {
 			String singlePair = "";
 
@@ -350,6 +366,53 @@ public class Relation {
 		return resultRelation;
 	}
 
+	public static Relation Epsilon(int element, ArrayList<String> attribute) {
+		ArrayList<String> list = new ArrayList<>();
+
+		int row = element;
+		int column = (int) Math.pow(lattice.getNoOfElements(), row);
+		Relation resultRelation = new Relation(row, column, lattice);
+		System.out.println(lattice.getNoOfElements());
+		for (int c = 0; c < column; c++) {
+			String singlePair = "";
+
+			int n = c;
+			int r = row - 1;
+			while (n > 0) {
+				int value = n % lattice.getNoOfElements();
+				
+				if(lattice.getNoOfElements()==2)
+				{
+					
+					if(value>0)
+						singlePair = attribute.get(r)+","+singlePair;
+				}
+				else
+				{
+					if(value>01)
+						singlePair = singlePair + "," +value+"/"+attribute.get(r);
+				}
+				
+				
+				
+				resultRelation.getMatrix()[r][c] = value;
+				n = n / lattice.getNoOfElements();
+				r--;
+			}
+			list.add(singlePair);
+
+		}
+		System.out.println("---Epsilon Start----");
+		Utility.PrintArray(resultRelation.getMatrix());
+
+		for (String data : list) {
+			if(!data.equals(""))
+			System.out.println("{"+data.substring(0, data.length() - 1)+"}");
+			else
+				System.out.println("{}");
+		}
+		return resultRelation;
+	}
 	/**
 	 * This method calculates the intersection of left residue and right residue
 	 * to two relation R and S. Let define R:X-Y and S:X-Z. Then the symmetric
@@ -464,11 +527,12 @@ public class Relation {
 	
 	public Relation generateImplicationsDegree()
 	{
+		int element = (int) Math.pow(lattice.getNoOfElements(), this.getColumn());
 		Relation e = this.generateIntentConcepts().Up().getEquivalence();
-		Relation q = Relation.Pi(27, 27).Composition(Relation.Epsilon(3).RightResidue(Relation.Epsilon(3))).Composition(e.Transpose());
-		Relation r = Relation.Rho(27, 27).Composition(Relation.Epsilon(3).RightResidue(Relation.Epsilon(3))).Composition(e.Transpose());
+		Relation q = Relation.Pi(element, element).Composition(Relation.Epsilon(this.getColumn()).RightResidue(Relation.Epsilon(this.getColumn()))).Composition(e.Transpose());
+		Relation r = Relation.Rho(element, element).Composition(Relation.Epsilon(this.getColumn()).RightResidue(Relation.Epsilon(this.getColumn()))).Composition(e.Transpose());
 		Relation s=q.Implication(r).Composition(e).Composition(this.generateIntentConcepts()).Composition(e.Transpose());
-		Relation relL = new Relation(1, 18, new ThreeElementLattice());
+		Relation relL = new Relation(1, e.getRow(), new ThreeElementLattice());
 		int[][] L = {{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
 		relL.setMatrix(L);
 		Relation ss = s.LeftResidue(relL);
@@ -480,10 +544,10 @@ public class Relation {
 		Relation a = a1.AttributeToPowerset().Down();
 		Relation b = b1.AttributeToPowerset().Down();
 		Relation e = this.generateIntentConcepts().Up().getEquivalence();
-		Relation q = a.Composition(Relation.Epsilon(3).RightResidue(Relation.Epsilon(3))).Composition(e.Transpose());
-		Relation r = b.Composition(Relation.Epsilon(3).RightResidue(Relation.Epsilon(3))).Composition(e.Transpose());
+		Relation q = a.Composition(Relation.Epsilon(this.getColumn()).RightResidue(Relation.Epsilon(this.getColumn()))).Composition(e.Transpose());
+		Relation r = b.Composition(Relation.Epsilon(this.getColumn()).RightResidue(Relation.Epsilon(this.getColumn()))).Composition(e.Transpose());
 		Relation s=q.Implication(r).Composition(e).Composition(this.generateIntentConcepts()).Composition(e.Transpose());
-		Relation relL = new Relation(1, 18, new ThreeElementLattice());
+		Relation relL = new Relation(1, e.getRow(), new ThreeElementLattice());
 		int[][] L = {{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
 		relL.setMatrix(L);
 		Relation ss = s.LeftResidue(relL);
@@ -492,25 +556,31 @@ public class Relation {
 	
 	public Relation generateImplicationsDegreeV2(Relation a, Relation b)
 	{
-		Relation A = a.AttributeToPowerset().Down();
-		Relation B = b.AttributeToPowerset().Down();
-		Relation rr =B.Composition(A.Composition(this.GetPrimePrime()).Transpose());
+		Relation A = a;//.AttributeToPowerset();
+		Relation B = b;//.AttributeToPowerset();
+		Relation rr =B.Composition(Epsilon(3).RightResidue(Epsilon(3))).Composition(A.Composition(this.GetPrimePrime()).Transpose());
 		return rr;
 	
 	}
+	public Relation generateImplicationsDegreeV2()
+	{
+		
+		Relation rr =Pi(27,27).Composition(Epsilon(3).RightResidue(Epsilon(3))).Composition(Rho(27,27).Composition(this.GetPrimePrime()).Transpose());
+		System.out.println("---"+rr.getColumn()+"---"+rr.getRow());
+		return rr;
 	
+	}
 	public Relation AttributeToPowerset() {
 
-		return this.Transpose().SymetricQuotient(Epsilon(2));
+		return this.Transpose().SymetricQuotient(Epsilon(this.getRow()));
 
 	}
 
 	public Relation GetAttributeSet() {
-		// return this.RightResidue(Epsilon(this.getRow())).SymetricQuotient(
-		// Epsilon(this.getColumn())).Down();
+		
 		return Epsilon(this.getRow()).RightResidue(this).Transpose()
 				.SymetricQuotient(Epsilon(this.getColumn())).Down();
-		// return this.RightResidue(Epsilon(this.getRow())).Transpose();
+		
 	}
 
 	public Relation generateAllConcepts() {
@@ -518,7 +588,7 @@ public class Relation {
 
 		int n = (int) Math.pow(lattice.getNoOfElements(), this.getColumn());
 
-		System.out.println(m + " " + n);
+		System.out.println(lattice);
 		Relation r1 = this
 				.Transpose()
 				.LeftResidue(Relation.Epsilon(this.getRow()).Transpose())
@@ -534,6 +604,7 @@ public class Relation {
 						this.LeftResidue(
 								Relation.Epsilon(this.getColumn()).Transpose())
 								.Composition(Relation.Rho(m, n).Transpose()));
+		
 
 		Relation r3 = r1.Intersection(r2).Intersection(
 				Relation.IdentityRelation(r1.getRow()));
@@ -543,11 +614,7 @@ public class Relation {
 	}
 
 	public Relation GenerateConceptsV2Modified() {
-		int m = (int) Math.pow(lattice.getNoOfElements(), this.getRow());
-
-		int n = (int) Math.pow(lattice.getNoOfElements(), this.getColumn());
-
-		System.out.println(m + " " + n);
+		
 		Relation r1 = this.Transpose()
 				.LeftResidue(Relation.Epsilon(this.getRow()).Transpose())
 				.SymetricQuotient(Relation.Epsilon(this.getColumn()));
@@ -595,10 +662,7 @@ public class Relation {
 	}
 
 	public Relation GenerateConceptsV3Modified() {
-		int m = (int) Math.pow(lattice.getNoOfElements(), this.getRow());
-
-		int n = (int) Math.pow(lattice.getNoOfElements(), this.getColumn());
-
+	
 		return Relation
 				.Epsilon(this.getRow())
 				.SymetricQuotient(Relation.Epsilon(this.getRow()))
@@ -872,6 +936,22 @@ public class Relation {
 		Relation r = new Relation(nonZeroRow.size(), this.getColumn(), lattice);
 		r.setMatrix(newMatrix);
 		return r;
+	}
+
+	Relation getObjectPrime()
+	{
+		return this.Transpose().LeftResidue(Epsilon(this.getRow()).Transpose()).SymetricQuotient(Epsilon(this.getColumn())).Down();
+	}
+	
+	Relation getAttributePrime()
+	{
+		return this.Transpose().getPrime();
+		//return this.LeftResidue(Epsilon(this.getColumn()).Transpose()).SymetricQuotient(Epsilon(this.getRow())).Down();
+	}
+	
+	Relation getPrime()
+	{
+		return this.Transpose().LeftResidue(Epsilon(this.getRow()).Transpose()).SymetricQuotient(Epsilon(this.getColumn()));
 	}
 
 }

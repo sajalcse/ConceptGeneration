@@ -55,7 +55,7 @@ public class BoolLattice extends Lattice {
 	@Override
 	public int Join(int elem1, int elem2) {
 		// TODO Auto-generated method stub
-		return Math.min(elem1 + elem2, elem2);
+		return Math.max(elem1 + elem2, elem2);
 	}
 
 	/*

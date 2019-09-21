@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
+import com.relation.operations.Relation;
+
 /**
  * 
  * @author sajal
@@ -49,6 +51,17 @@ public class Utility {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public static int countConcepts(Relation r)
+	{
+		int count=0;
+		for(int i=0;i<r.getRow();i++)
+			for(int j=0;j<r.getColumn();j++)
+				if(r.getMatrix()[i][j]>0)
+					count++;
+		System.out.println("total number of concepts: "+count);
+		return count;
 	}
 }
 
