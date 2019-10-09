@@ -15,8 +15,8 @@ public class FiveElementLattice extends Lattice {
 	 * between two elements.Since it is a three element lattice, we need to
 	 * declare a 3 by 3 dimension array.
 	 */
-	private static int[][] joinArray = { { 0, 1, 2, 3, 4 }, { 1, 1, 1, 1, 1 },
-			{ 2, 1, 2, 3, 4 }, { 3, 1, 3, 3, 4 }, { 4, 1, 4, 4, 4 } };
+	private static int[][] joinArray ={ { 0, 0, 0, 0, 0 }, { 0, 1, 2, 3, 4 },
+			{ 0, 2, 2, 2, 2 }, { 0, 3, 2, 3, 3 }, { 0, 4, 2, 3, 4 } };
 
 	/**
 	 * This static two dimensional array contains the result of an implication

@@ -1,5 +1,7 @@
 package com.relation.lattice;
 
+import java.util.ArrayList;
+
 public class ThreeElementLattice extends Lattice {
 
 	/**
@@ -90,6 +92,34 @@ public class ThreeElementLattice extends Lattice {
 		 * 
 		 * } System.out.println(); }
 		 */// return 0;
+		
+		int[][] meetArray = { { 0, 0, 0, 0, 0, 0 }, { 0, 1, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0 },
+				{ 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0, 0 } };
+
+	 /*ArrayList<Integer> elements = new ArrayList<Integer>();
+	 elements.add(0);
+	 elements.add(3);
+	 elements.add(1);
+	 elements.add(1);
+	 elements.add(2);
+	 elements.add(2);
+	 elements.add(-1);
+
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 6; j++) {
+				int max = 6;
+				for (int x = 0; x < 6; x++) {
+					if (elements.get(meetArray[i][x]) <= elements.get(j)) {
+						if (elements.get(x) > elements.get(max))
+							max = x;
+					}
+				}
+				System.out.print(max + ",");
+				max = 6;
+
+			}
+			System.out.println();
+		}*/
 		return implicationArray[elem1][elem2];
 	}
 

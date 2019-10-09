@@ -2,6 +2,7 @@ package com.relation.operations;
 
 import java.util.ArrayList;
 
+import com.relation.lattice.BoolLattice;
 import com.relation.lattice.Lattice;
 import com.relation.lattice.ThreeElementLattice;
 import com.relation.utility.Utility;
@@ -157,8 +158,8 @@ public class Relation implements IRelationOperation, IFormalConceptOperation {
 				}
 			}
 			resultRelation.setMatrix(resultMatrix);
-			System.out.println("---Union Start----");
-			Utility.PrintArray(resultRelation.getMatrix());
+			//System.out.println("---Union Start----");
+		//	Utility.PrintArray(resultRelation.getMatrix());
 			return resultRelation;
 		}
 
@@ -193,8 +194,8 @@ public class Relation implements IRelationOperation, IFormalConceptOperation {
 				}
 			}
 			resultRelation.setMatrix(resultMatrix);
-			System.out.println("---Intersection Start----");
-			Utility.PrintArray(resultRelation.getMatrix());
+			//System.out.println("---Intersection Start----");
+			//Utility.PrintArray(resultRelation.getMatrix());
 			return resultRelation;
 		}
 	}
@@ -217,8 +218,8 @@ public class Relation implements IRelationOperation, IFormalConceptOperation {
 				}
 			}
 			resultRelation.setMatrix(resultMatrix);
-			System.out.println("---Implication Start----");
-			Utility.PrintArray(resultRelation.getMatrix());
+			/*System.out.println("---Implication Start----");
+			Utility.PrintArray(resultRelation.getMatrix());*/
 			return resultRelation;
 		}
 	}
@@ -254,12 +255,12 @@ public class Relation implements IRelationOperation, IFormalConceptOperation {
 						/*System.out.println(this.getMatrix()[i][v]+","+relation.getMatrix()[v][j]+"="+getLattice().Meet(this.getMatrix()[i][v],
 						relation.getMatrix()[v][j]));
 						*/
-						System.out.println(resultMatrix[i][j]+","+
-								getLattice().Meet(this.getMatrix()[i][v],
-										relation.getMatrix()[v][j])+"="+getLattice().Join(
-								resultMatrix[i][j],
-								getLattice().Meet(this.getMatrix()[i][v],
-										relation.getMatrix()[v][j])));
+						/*
+						 * System.out.println(resultMatrix[i][j]+","+
+						 * getLattice().Meet(this.getMatrix()[i][v],
+						 * relation.getMatrix()[v][j])+"="+getLattice().Join( resultMatrix[i][j],
+						 * getLattice().Meet(this.getMatrix()[i][v], relation.getMatrix()[v][j])));
+						 */
 						
 						resultMatrix[i][j] = getLattice().Join(
 								resultMatrix[i][j],
@@ -273,8 +274,8 @@ public class Relation implements IRelationOperation, IFormalConceptOperation {
 
 			}
 			resultRelation.setMatrix(resultMatrix);
-			System.out.println("---Composition Start----");
-			Utility.PrintArray(resultRelation.getMatrix());
+			/*System.out.println("---Composition Start----");
+			Utility.PrintArray(resultRelation.getMatrix());*/
 			return resultRelation;
 		}
 	}
@@ -304,8 +305,8 @@ public class Relation implements IRelationOperation, IFormalConceptOperation {
 				}
 			}
 		}
-		System.out.println("---Right Start----");
-		Utility.PrintArray(resultRelation.getMatrix());
+//		System.out.println("---Right Start----");
+//		Utility.PrintArray(resultRelation.getMatrix());
 		return resultRelation;
 	}
 
@@ -334,8 +335,8 @@ public class Relation implements IRelationOperation, IFormalConceptOperation {
 				}
 			}
 		}
-		System.out.println("---Left Start----");
-		Utility.PrintArray(resultRelation.getMatrix());
+		/*System.out.println("---Left Start----");
+		Utility.PrintArray(resultRelation.getMatrix());*/
 		return resultRelation;
 	}
 
@@ -372,8 +373,8 @@ public class Relation implements IRelationOperation, IFormalConceptOperation {
 			list.add(singlePair);
 
 		}
-		System.out.println("---Epsilon Start----");
-		Utility.PrintArray(resultRelation.getMatrix());
+		/*System.out.println("---Epsilon Start----");
+		Utility.PrintArray(resultRelation.getMatrix());*/
 
 		for (String data : list) {
 			System.out.println(data);
@@ -413,8 +414,8 @@ public class Relation implements IRelationOperation, IFormalConceptOperation {
 			list.add(singlePair);
 
 		}
-		System.out.println("---Epsilon Start----");
-		Utility.PrintArray(resultRelation.getMatrix());
+		/*System.out.println("---Epsilon Start----");
+		Utility.PrintArray(resultRelation.getMatrix());*/
 
 		for (String data : list) {
 			if (!data.equals(""))
@@ -496,11 +497,11 @@ public class Relation implements IRelationOperation, IFormalConceptOperation {
 
 		Relation right = this.rightResidue(relation);
 		System.out.println("--SQ Right--");
-		Utility.PrintArray(right.getMatrix());
+		//Utility.PrintArray(right.getMatrix());
 		System.out.println("--SQ Right End--");
 		Relation left = this.transpose().leftResidue(relation.transpose());
 		System.out.println("--SQ Left--");
-		Utility.PrintArray(left.getMatrix());
+		//Utility.PrintArray(left.getMatrix());
 		System.out.println("--SQ Left End--");
 		return right.intersection(left);
 	}
@@ -522,8 +523,8 @@ public class Relation implements IRelationOperation, IFormalConceptOperation {
 		Relation resultRelation = new Relation(dimension, dimension,
 				getLattice());
 		resultRelation.setMatrix(matrix);
-		System.out.println("---Identity Start----");
-		Utility.PrintArray(resultRelation.getMatrix());
+		/*System.out.println("---Identity Start----");
+		Utility.PrintArray(resultRelation.getMatrix());*/
 		return resultRelation;
 	}
 
@@ -539,7 +540,7 @@ public class Relation implements IRelationOperation, IFormalConceptOperation {
 		for (int i = 0; i < this.getRow(); i++)
 			for (int j = 0; j < this.getColumn(); j++)
 				r2.getMatrix()[j][i] = this.getMatrix()[i][j];
-		Utility.PrintArray(r2.getMatrix());
+		//Utility.PrintArray(r2.getMatrix());
 		return r2;
 	}
 
@@ -632,7 +633,7 @@ public class Relation implements IRelationOperation, IFormalConceptOperation {
 		}
 		Relation resultRelation = new Relation(row, column, getLattice());
 		resultRelation.setMatrix(matrix);
-		Utility.PrintArray(matrix);
+		//Utility.PrintArray(matrix);
 		return resultRelation;
 	}
 
@@ -672,7 +673,7 @@ public class Relation implements IRelationOperation, IFormalConceptOperation {
 		}
 		Relation resultRelation = new Relation(row, column, getLattice());
 		resultRelation.setMatrix(matrix);
-		Utility.PrintArray(resultRelation.getMatrix());
+		//Utility.PrintArray(resultRelation.getMatrix());
 		return resultRelation;
 	}
 
@@ -691,7 +692,7 @@ public class Relation implements IRelationOperation, IFormalConceptOperation {
 						: 0;
 			}
 		}
-		Utility.PrintArray(resultRelation.getMatrix());
+		//Utility.PrintArray(resultRelation.getMatrix());
 		return resultRelation;
 	}
 
@@ -710,14 +711,14 @@ public class Relation implements IRelationOperation, IFormalConceptOperation {
 						: 1;
 			}
 		}
-		Utility.PrintArray(resultRelation.getMatrix());
+		//Utility.PrintArray(resultRelation.getMatrix());
 		return resultRelation;
 	}
 
 	public Relation getEquivalence() {
 		Relation r = this.removeZero();
 		System.out.println("--tst--");
-		Utility.PrintArray(r.getMatrix());
+		//Utility.PrintArray(r.getMatrix());
 		return r;
 	}
 
@@ -766,7 +767,7 @@ public class Relation implements IRelationOperation, IFormalConceptOperation {
 				matrix[i][j] = this.getMatrix()[i][j] == 1 ? 0 : 1;
 		resultRelation.setMatrix(matrix);
 		System.out.println("---Not Start----");
-		Utility.PrintArray(resultRelation.getMatrix());
+		//Utility.PrintArray(resultRelation.getMatrix());
 		return resultRelation;
 	}
 	
@@ -785,16 +786,16 @@ public class Relation implements IRelationOperation, IFormalConceptOperation {
 
 		Relation epsilon = epsilon(this.getRow());
 		System.out.println("----epsilonss----");
-		Utility.PrintArray(epsilon.getMatrix());
+		//Utility.PrintArray(epsilon.getMatrix());
 
 		Relation epsilonRightRelation = epsilon.rightResidue(this);
 		System.out.println("----epsilonRightRelation----");
-		Utility.PrintArray(epsilonRightRelation.getMatrix());
+		//Utility.PrintArray(epsilonRightRelation.getMatrix());
 
 		Relation RelationLeftepsilonRightRelation = this
 				.leftResidue(epsilonRightRelation);
 		System.out.println("----RelationLeftepsilonRightRelation----");
-		Utility.PrintArray(RelationLeftepsilonRightRelation.getMatrix());
+		//Utility.PrintArray(RelationLeftepsilonRightRelation.getMatrix());
 
 		// ------------------------------------this changes for the proof of
 		// alternative formula---------------------
@@ -806,15 +807,15 @@ public class Relation implements IRelationOperation, IFormalConceptOperation {
 		Relation symRelation = RelationLeftepsilonRightRelation
 				.symetricQuotient(epsilon);
 		System.out.println("----symRelation----");
-		Utility.PrintArray(symRelation.getMatrix());
+	//	Utility.PrintArray(symRelation.getMatrix());
 
 		Relation identity = identity(symRelation.getRow());
 		System.out.println("----identityyyy----");
-		Utility.PrintArray(identity.getMatrix());
+		//Utility.PrintArray(identity.getMatrix());
 
 		Relation finalmat = symRelation.intersection(identity);
 		System.out.println("----finalmat----");
-		Utility.PrintArray(finalmat.getMatrix());
+		//Utility.PrintArray(finalmat.getMatrix());
 		System.out.println("----");
 		return finalmat;
 
@@ -1019,30 +1020,140 @@ public class Relation implements IRelationOperation, IFormalConceptOperation {
 		return epsilon(m).rightResidue(epsilon(m));
 	}
 	
+	public static Relation L(int m,int n)
+	{
+		int[][] l =new int[m][n];
+		Relation lr = new Relation(m, n, getLattice());
+		for (int i = 0; i < m;  i++) {
+			for (int j = 0; j < n; j++) {
+				l[i][j]=1;
+			}
+		}
+		lr.setMatrix(l);
+		return lr;
+	}
+	
+	public Relation generateCanonicalBase()
+	{
+
+		Relation cm = this.generateAttributeConcept().getEquivalence();
+		Relation e = Relation.e(this.getColumn());
+		int identitySize = (int)Math.pow(getLattice().getNoOfElements(), this.getColumn());
+		Relation i = Relation.identity(identitySize);
+		
+		Relation first_part = (e.intersection(i.Not())).rightResidue( cm.transpose().composition(Relation.L(cm.transpose().getColumn(), 1)));
+		Relation second_part = (cm.transpose().composition(Relation.L(cm.transpose().getColumn(), 1))).Not();
+		Relation a = first_part.intersection(second_part);
+		
+		Relation nexta =null;
+		while(true)
+		{
+			nexta = generateNext(this, a);
+			if(Utility.isEqual(a, nexta))
+				break;
+			else
+				a=nexta;
+		}
+		
+		Relation base = (nexta.composition(Relation.L(1, identitySize))).intersection(this.getAttributePrime().composition(this.getObjectPrime()));
+		
+		
+		return base;
+	}
+	
+	public Relation generateImplicationUsingLemma()
+	{
+		Relation cm = this.generateAttributeConcept().getEquivalence();
+		Relation e = e(this.getColumn());
+		return cm.composition(e.transpose()).rightResidue(cm.composition(e.transpose()));
+	}
 	
 	
 	
+	public Relation generateImplicationsUsingBase()
+	{
+		int row = (int)Math.pow(getLattice().getNoOfElements(), this.getColumn());
+		Relation e = Relation.e(this.getColumn());
+		Relation pi = Relation.pi(row, row);
+		Relation rho = Relation.rho(row, row);
+		Relation ep = Relation.epsilon(this.getColumn());
+		
+		Relation r = this.generateCanonicalBase();
+
+		Relation j = ep.composition(pi.transpose()).union(ep.composition(rho.transpose())).symetricQuotient(ep).down();
+		Relation m = (pi.composition(r).composition(pi.transpose())).intersection(rho.composition(rho.transpose()));
+		Relation mid = j.transpose().composition(m).composition(j);
+		Relation compr = e.transpose().union(mid).union(r.composition(r)).union(r);
+		
+		Relation nextCompr=null;
+		while(true)
+		{
+			nextCompr = generateNextR(this, compr);
+			if(Utility.isEqual(compr, nextCompr))
+				break;
+			else
+				compr=nextCompr;
+		}
+		return nextCompr;
+	}
+	
+	public Relation generateNextR(Relation r, Relation compr)
+	{
+		int row = (int)Math.pow(getLattice().getNoOfElements(), r.getColumn());
+		Relation e = Relation.e(r.getColumn());
+		Relation pi = Relation.pi(row, row);
+		Relation rho = Relation.rho(row, row);
+		Relation ep = Relation.epsilon(r.getColumn());
+
+		Relation j1 = e.composition(pi.transpose()).union(e.composition(rho.transpose())).symetricQuotient(e).down();
+		Relation m1 = (pi.composition(compr).composition(pi.transpose())).intersection(rho.composition(rho.transpose()));
+		Relation mid1 = j1.transpose().composition(m1).composition(j1);
+		Relation comprr = e.transpose().union(mid1).union(compr.composition(compr)).union(compr);
+		return comprr;
+	}
 	
 	
+	private Relation generateNext(Relation relation,Relation a) {
+		Relation cm = this.generateAttributeConcept().getEquivalence();
+		Relation e = Relation.e(this.getColumn());
+		int identitySize = (int)Math.pow(getLattice().getNoOfElements(), this.getColumn());
+		Relation i = Relation.identity(identitySize);
+		
+		Relation leftOfright = e.intersection(i.Not()).intersection(a.composition(Relation.L(1, identitySize)));
+		
+		Relation rightOfright = this.getAttributePrime().composition(
+				this.getObjectPrime()).composition(e);
+	
+		Relation mid = ((leftOfright.rightResidue(rightOfright)).intersection(Relation.identity(identitySize))).composition(Relation.L(identitySize,1));
+		
+		Relation last = (cm.transpose().composition(Relation.L(cm.transpose().getColumn(), 1))).Not();;
+		
+		Relation nexta = a.union(mid).intersection(last);
+		
+		//Utility.PrintArray(nexta,"nexta");
+		
+		return nexta;
+	}
+
 	public Relation getPrimePrime() {
 
 		Relation epsilon = epsilon(this.getRow());
-		System.out.println("----epsilonss----");
-		Utility.PrintArray(epsilon.getMatrix());
+		//System.out.println("----epsilonss----");
+		//Utility.PrintArray(epsilon.getMatrix());
 
 		Relation epsilonRightRelation = epsilon.rightResidue(this);
-		System.out.println("----epsilonRightRelation----");
-		Utility.PrintArray(epsilonRightRelation.getMatrix());
+		//System.out.println("----epsilonRightRelation----");
+		//Utility.PrintArray(epsilonRightRelation.getMatrix());
 
 		Relation RelationLeftepsilonRightRelation = this
 				.leftResidue(epsilonRightRelation);
-		System.out.println("----RelationLeftepsilonRightRelation----");
-		Utility.PrintArray(RelationLeftepsilonRightRelation.getMatrix());
+		//System.out.println("----RelationLeftepsilonRightRelation----");
+	//	Utility.PrintArray(RelationLeftepsilonRightRelation.getMatrix());
 
 		Relation symRelation = RelationLeftepsilonRightRelation
 				.symetricQuotient(epsilon);
-		System.out.println("----symRelation----");
-		Utility.PrintArray(symRelation.getMatrix());
+		//System.out.println("----symRelation----");
+	//	Utility.PrintArray(symRelation.getMatrix());
 
 		return symRelation;
 
