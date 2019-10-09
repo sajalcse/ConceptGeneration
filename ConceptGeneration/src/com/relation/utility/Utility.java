@@ -16,7 +16,22 @@ public class Utility {
 	 * This method prints a two dimensional array in the form of row and column
 	 * @param data is the input array to print.
 	 */
+	public static void PrintArray(Relation r, String title) {
+
+		System.out.println("--------"+title+"-------");
+		int[][] data = r.getMatrix();
+		int row = data.length;
+		int column = data[0].length;
+		for (int i = 0; i < row; i++) {
+			for (int j = 0; j < column; j++) {
+				System.out.print(data[i][j] + " ");
+			}
+			System.out.print("\n");
+		}
+		System.out.println("--------End "+title+"--------");
+	}
 	public static void PrintArray(int[][] data) {
+		
 		int row = data.length;
 		int column = data[0].length;
 		for (int i = 0; i < row; i++) {
@@ -26,7 +41,6 @@ public class Utility {
 			System.out.print("\n");
 		}
 	}
-	
 
 	public static void Write(int[][] data) {
 		PrintWriter writer;
@@ -53,15 +67,36 @@ public class Utility {
 		
 	}
 	
-	public static int countConcepts(Relation r)
-	{
-		int count=0;
-		for(int i=0;i<r.getRow();i++)
-			for(int j=0;j<r.getColumn();j++)
-				if(r.getMatrix()[i][j]>0)
+	
+	
+	public static int getNumberOfConcepts(Relation r, int n) {
+
+		int count = 0;
+		for (int i = 0; i < r.getRow(); i++)
+			for (int j = 0; j < r.getColumn(); j++)
+				if (r.getMatrix()[i][j] == n)
 					count++;
-		System.out.println("total number of concepts: "+count);
+		System.out.println(count);
 		return count;
+	}
+	
+	public static boolean isEqual(Relation rel1, Relation rel2) {
+		boolean result = true;
+		if ((rel1.getRow() == rel2.getRow())
+				&& (rel1.getColumn() == rel2.getColumn())) {
+			for (int i = 0; i < rel1.getRow(); i++)
+				for (int j = 0; j < rel1.getColumn(); j++)
+					if (rel1.getMatrix()[i][j] != rel2.getMatrix()[i][j]) {
+						result = false;
+						break;
+					}
+
+		} else {
+			System.err
+					.println("Relations are incompatiable for equality check");
+		}
+		System.out.println(result);
+		return result;
 	}
 }
 

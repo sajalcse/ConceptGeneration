@@ -7,6 +7,8 @@ package com.relation.lattice;
  */
 public class BoolLattice extends Lattice {
 	int[][] implication = {{1,1},{0,1}};
+	int[][] meet = {{0,0},{0,1}};
+	int[][] join = {{0,1},{1,1}};
 	/**
 	 * This is the constructor. Constructor assign the the total number of
 	 * elements to represent this lattice.
@@ -55,7 +57,7 @@ public class BoolLattice extends Lattice {
 	@Override
 	public int Join(int elem1, int elem2) {
 		// TODO Auto-generated method stub
-		return Math.max(elem1 + elem2, elem2);
+		return join[elem1][elem2];
 	}
 
 	/*
